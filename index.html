@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF <meta name="-8">
+   viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haider Ali | Portfolio</title>
+    <style>
+        /* --- RESET & BASIC SETUP --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            /* The Gradient: Green from Upper, Black from Lower */
+            background: linear-gradient(to bottom, #11998e 0%, #38ef7d 40%, #000000 100%);
+            background-attachment: fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            transition: background 0.5s ease;
+        }
+
+        /* --- LAYOUT --- */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- HEADER --- */
+        header {
+            margin-bottom: 40px;
+            padding-top: 60px;
+            animation: fadeIn 1.5s ease-in;
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            background: -webkit-linear-gradient(#fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: 400;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .role {
+            color: #38ef7d;
+            font-weight: 700;
+        }
+
+        /* --- BUTTONS --- */
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            font-size: 1rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #38ef7d;
+            color: #000000;
+            border: 2px solid #38ef7d;
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: #38ef7d;
+            box-shadow: 0 0 20px rgba(56, 239, 125, 0.6);
+        }
+
+        .btn-outline {
+            background-color: rgba(0,0,0,0.5);
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            background-color: #ffffff;
+            color: #000000;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* --- SECTIONS --- */
+        .section-box {
+            background: rgba(0, 20, 0, 0.6);
+            border: 1px solid #11998e;
+            padding: 30px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 1000px;
+            margin-bottom: 50px;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-box.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        .section-title {
+            color: #38ef7d;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #38ef7d;
+            padding-bottom: 10px;
+        }
+
+        /* --- GALLERY GRID --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .gallery-item {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 2px solid #38ef7d;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(56, 239, 125, 0.6);
+            z-index: 10;
+        }
+
+        /* --- MODAL (FULL SCREEN VIEWER) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border: 3px solid #38ef7d;
+            box-shadow: 0 0 50px rgba(56, 239, 125, 0.5);
+            animation: zoomIn 0.3s;
+        }
+
+        @keyframes zoomIn {
+            from {transform: scale(0.8); opacity: 0;}
+            to {transform: scale(1); opacity: 1;}
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            font-size: 50px;
+            color: #38ef7d;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: #fff;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #000000;
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            border-top: 1px solid #11998e;
+            z-index: 2;
+            position: relative;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .back-btn {
+            margin-bottom: 20px;
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+            .subtitle { font-size: 1.2rem; }
+            .buttons-container { flex-direction: column; }
+            .btn { width: 100%; }
+            .gallery-item { height: 200px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header id="home-header">
+            <h1>Haider Ali</h1>
+            <div class="subtitle">
+                <span class="role">Graphics Designer</span> and <span class="role">Video Editor</span>
+            </div>
+        </header>
+
+        <!-- Main Menu Buttons -->
+        <div class="buttons-container" id="main-menu">
+            <a href="https://wa.me/923237121697" class="btn btn-primary">Contact</a>
+            <button onclick="showSection('designs')" class="btn btn-outline">Design Samples</button>
+            <button onclick="showSection('videos')" class="btn btn-outline">Video Samples</button>
+        </div>
+
+        <!-- Hidden Section: Designs -->
+        <div id="designs-section" class="section-box">
+            <button class="back-btn" onclick="goBack()">← Back to Menu</button>
+            <div class="section-title">Design Samples</div>
+            
+            <!-- Gallery with your Links -->
+            <div class="gallery">
+                <img src="https://i.ibb.co/tPB694Pt/poster-burger.jpg" alt="poster burger" class="gallery-item" onclick="openImage(this)">
+                <img src="https://i.ibb.co/GQKRdNXb/poster-car.jpg" alt="poster car" class="gallery-item" onclick="openImage(this)">
+                <img src="https://i.ibb.co/9Xd93qG/spider-man.jpg" alt="spider man" class="gallery-item" onclick="openImage(this)">
+                <img src="https://i.ibb.co/277DHc3s/steve.jpg" alt="steve" class="gallery-item" onclick="openImage(this)">
+            </div>
+        </div>
+
+        <!-- Hidden Section: Videos -->
+        <div id="videos-section" class="section-box">
+            <button class="back-btn" onclick="goBack()">← Back to Menu</button>
+            <div class="section-title">Video Samples</div>
+            <p style="margin-bottom: 20px; color: #ccc;">Video Samples Section - Coming Soon</p>
+        </div>
+
+    </div>
+
+    <!-- Modal for Viewing -->
+    <div id="viewerModal" class="modal" onclick="closeModal()">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img id="modalImg" class="modal-content" style="display:none;">
+    </div>
+
+    <footer>
+        &copy; 2023 Haider Ali Portfolio. All Rights Reserved.
+    </footer>
+
+    <script>
+        // --- NAVIGATION LOGIC ---
+        function showSection(sectionId) {
+            // Hide header and main buttons
+            document.getElementById('home-header').style.display = 'none';
+            document.getElementById('main-menu').style.display = 'none';
+            
+            // Hide all sections first
+            document.getElementById('designs-section').classList.remove('active');
+            document.getElementById('videos-section').classList.remove('active');
+
+            // Show selected section
+            document.getElementById(sectionId + '-section').classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function goBack() {
+            // Show header and main buttons
+            document.getElementById('home-header').style.display = 'block';
+            document.getElementById('main-menu').style.display = 'flex';
+
+            // Hide sections
+            document.getElementById('designs-section').classList.remove('active');
+            document.getElementById('videos-section').classList.remove('active');
+
+            // Reset background to default gradient
+            resetBackground();
+        }
+
+        // --- IMAGE VIEWER LOGIC ---
+        function openImage(imgElement) {
+            const modal = document.getElementById('viewerModal');
+            const modalImg = document.getElementById('modalImg');
+            
+            // Get the source of clicked image
+            const imgSrc = imgElement.src;
+
+            // Set modal image
+            modalImg.src = imgSrc;
+            modalImg.style.display = 'block';
+            
+            // Show modal
+            modal.style.display = 'flex';
+
+            // Set Blurry Background
+            document.body.style.background = `url('${imgSrc}') no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+            // Apply a blur filter to the body background
+            document.body.style.filter = 'blur(8px) brightness(0.3)';
+            
+            // Prevent scrolling when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('viewerModal');
+            modal.style.display = 'none';
+            
+            // Reset background
+            resetBackground();
+            
+            // Enable scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        function resetBackground() {
+            document.body.style.background = 'linear-gradient(to bottom, #11998e 0%, #38ef7d 40%, #000000 100%)';
+            document.body.style.backgroundAttachment = 'fixed';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.filter = 'none';
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
